@@ -1,3 +1,4 @@
+import { Control } from './Control'
 import './globals.css'
 
 
@@ -7,7 +8,7 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }) {
-const resp = await fetch("http://localhost:9999/topics", {cache: 'no-store'})
+const resp = await fetch(process.env.NEXT_PUBLIC_API_URL+"topics", {cache: 'no-store'})
 const topics = await resp.json()
 
   return (
@@ -20,11 +21,7 @@ const topics = await resp.json()
          })}
         </ol>
         {children}
-        <ul>
-          <li><a href='/create'>Create</a></li>
-          <li><a href='/create'>Update</a></li>
-          <li><input type="button" value="delete"></input></li>
-        </ul>
+        <Control/>
         </body>
     </html>
   )
