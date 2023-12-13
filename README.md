@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Next를 이용한 간단한 CRUD 게시판 만들어보기
 
-## Getting Started
 
-First, run the development server:
+명령어 
+npx create-next-app@latest .
 
-```bash
+실행 명령어
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+백엔드는 json-server로 간단하게 구현
+명령어
+npx json-server --port 9999 --watch db.json
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+.폴더구성
+src\app (루트폴더)(layout.js , page.js)
+create  글생성
+read    작성한거 보여주기 
+update 수정
+Control.js 삭제버튼
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+----------------------------------------------------------------------------------------------------
+'사용자와 상호작용하는 기능은 클라이언트 컴포넌트 사용'
+'정보를 보여주는 기능은 서버 컴포넌트 사용'
 
-To learn more about Next.js, take a look at the following resources:
+next는 기본적으로 서버컴포넌트를 사용
+useEffect, useState같은 클라이언트 컴포넌트를 사용하려면
+맨위에 "use client" 추가
+----------------------------------------------------------------------------------------------------
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Link태그를 사용하는 이유
 
-## Deploy on Vercel
+a 태그를 사용하여 링크를 연결하면  
+링크를 클릭했을때 바뀌는 페이지 외의 변화가 없는 layout 부분들도
+처음부터 끝까지 요청해서 다운로드를 받게된다
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+link태그를 사용하면
+이동하려는 페이지만 요청이 들어간다
+이미 들어간적이 있는 페이지면 다운로드 받지않고 바로 렌더링 된다
+=> Single Page Application이 된다
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+(지금 개발환경에서는 미리 데이터를 읽어오는 prefetch 기능이 작동하지 않는다
+배포판에서 실행하면 잘 적용됨
+)
+
+
+# cache
+fetch 명령어를 사용하게되면
+next.js는 기본적으로 한번 가져온 정보를 저장함
+
+# 환경변수 설정
+
+.env.local 파일 생성
+ex)  API_URL=http://localhost:9999/
+fetch('http://localhost:9999/') -> fetch(process.env.API_URL)
+
+주의
+
+보안문제로 서버컴포넌트만 적용
+
+클라이언트컴포넌트도 적용시킬려면 앞에 NEXT_PUBLIC 추가
+
+fetch(process.env.NEXT_PUBLIC_API_URL)
+
+

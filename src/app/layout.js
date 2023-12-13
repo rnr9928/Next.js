@@ -1,6 +1,6 @@
 import { Control } from './Control'
 import './globals.css'
-
+import Link from 'next/link'
 
 export const metadata = {
   title: 'tutorials Next',
@@ -14,10 +14,10 @@ const topics = await resp.json()
   return (
     <html>
       <body>
-        <h1><a href='/'>WEB</a></h1>
+        <h1><Link href='/'>WEB</Link></h1>
         <ol>
          {topics.map((topic)=>{
-          return <li key={topic.id}><a href={'/read/${topic.id}'}>{topic.title}</a></li>
+          return <li key={topic.id}><Link href={'/read/${topic.id}'}>{topic.title}</Link></li>
          })}
         </ol>
         {children}
